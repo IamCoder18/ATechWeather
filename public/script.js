@@ -6234,12 +6234,15 @@ if (page == "hourly") {
             </div>`
     }
 
+    let i = 0
+    let sunrise = new Date(weather.data.timelines.daily[i].values.sunriseTime)
+    let sunset = new Date(weather.data.timelines.daily[i].values.sunsetTime)
+    i += 1
     hourly.forEach(e => {
-
         let cloud = "none"
         let timeV = e.time
         timeV = new Date(timeV)
-        let date = `${months[timeV.getMonth()]} ${timeV.getDate()}, ${timeV.getFullYear()}`
+        let dateDisplay = `${months[timeV.getMonth()]} ${timeV.getDate()}, ${timeV.getFullYear()}`
 
         let time = `${(timeV.getHours() % 12) + 1}:00`
 
@@ -6250,9 +6253,28 @@ if (page == "hourly") {
         }
 
         if (timeV.getHours() == 0) {
+            sunrise = new Date(weather.data.timelines.daily[i].values.sunriseTime)
+            sunset = new Date(weather.data.timelines.daily[i].values.sunsetTime)
+            i += 1
             document.querySelector("#hourlyCont").innerHTML += `<div style="height: 80px;" class="seperator">
-                <div style="margin-top: 60px">${date}</div>
-            </div>`
+                                                                    <div style="margin-top: 60px">${dateDisplay}</div>
+                                                                </div>`
+        }
+
+        if (sunrise) {
+            if (timeV.getHours() == sunrise.getHours()) {
+                document.querySelector("#hourlyCont").innerHTML += `<div style="height: 80px;" class="seperator">
+                                                                        <div style="margin-top: 60px"><img src="./assets/sunrise.png" class="tempImg"><img> &thinsp;&thinsp;&thinsp;&thinsp;${sunrise.getHours()}:${sunrise.getMinutes()}</div>
+                                                                    </div>`
+            }
+        }
+
+        if (sunset) {
+            if (timeV.getHours() == sunset.getHours()) {
+                document.querySelector("#hourlyCont").innerHTML += `<div style="height: 80px;" class="seperator">
+                                                                        <div style="margin-top: 60px"><img src="./assets/sunset.png" class="tempImg"><img> &thinsp;&thinsp;&thinsp;&thinsp;${sunset.getHours()}:${sunset.getMinutes()}</div>
+                                                                    </div>`
+            }
         }
 
         if (e.values.cloudCover <= 20) {
@@ -6268,58 +6290,61 @@ if (page == "hourly") {
         let temp = e.values.temperatureApparent
         let precipitation = e.values.precipitationProbability
         let id = crypto.randomUUID()
-        console.log(id)
         id = "I" + id.replaceAll("-", "9")
-        console.log(id)
+        let sun = "0"
+        if (timeV.getHours() > sunrise.getHours() && timeV.getHours() < sunset.getHours()) {
+            sun = "0"
+        } else if (timeV.getHours() < sunrise.getHours() || timeV.getHours() > sunset.getHours()) {
+            sun = "1"
+        }
 
         document.querySelector("#hourlyCont").innerHTML += `<div class="card hourCard" data-bs-toggle="modal" data-bs-target="#${id}">
-        <div class="card-body text-center full">
-            <table class="text-center full">
-                <tr class="text-center full">
-                    <td><h4>${time}</h4></td>
-                    <td style="padding-left: 8%;"><img src="./assets/${cloud}.png" class="tempImg"> ${cloudCover}%</td>
-                    <td style="padding-left: 8%;"><img src="./assets/tempreature.png" class="tempImg"> <span style="margin-left: -1%;">${temp}°C</span></td>
-                    <td style="padding-left: 8%;"><img src="./assets/precipitation.png" class="tempImg"> ${precipitation}%</td>
-                </tr>
-            </table>
-        </div>
-    </div>`
+                                                                <div class="card-body text-center full">
+                                                                    <table class="text-center full">
+                                                                        <tr class="text-center full">
+                                                                            <td><h4>${time}</h4></td>
+                                                                            <td style="padding-left: 8%;"><img src="./assets/${e.values.weatherCode.toString() + sun}.png" class="tempImg"></td>
+                                                                            <td style="padding-left: 8%;"><img src="./assets/tempreature.png" class="tempImg"> <span style="margin-left: -1%;">${temp}°C</span></td>
+                                                                            <td style="padding-left: 8%;"><img src="./assets/precipitation.png" class="tempImg"> ${precipitation}%</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>`
 
-        document.querySelector("#hourlyCont").innerHTML += `<div class="modal fade modal-centered" id="${id}" tabindex="-1"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5">${date}, ${time}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Cloud Cover: ${e.values.cloudCover}% <br>
-                            Dew Point: ${e.values.dewPoint}°C <br>
-                            Freezing Rain Intensity: ${e.values.freezingRainIntensity} mm/hr <br>
-                            Humidity: ${e.values.humidity}% <br>
-                            Ice Accumulation: ${e.values.iceAccumulation} mm <br>
-                            Precipitation Probability: ${e.values.precipitationProbability}% <br>
-                            Pressure Surface Level: ${e.values.pressureSurfaceLevel} hPa <br>
-                            Rain Accumulation: ${e.values.rainAccumulation} mm <br>
-                            Rain Intensity: ${e.values.rainIntensity} mm/hr <br>
-                            Sleet Accumulation: ${e.values.sleetAccumulation} mm <br>
-                            Sleet Intensity: ${e.values.sleetIntensity} mm/hr <br>
-                            Snow Accumulation: ${e.values.snowAccumulation} mm <br>
-                            Snow Depth: ${e.values.snowDepth} mm <br>
-                            Snow Intensity: ${e.values.snowIntensity} mm/hr <br>
-                            Temperature: ${e.values.temperature}°C <br>
-                            Temperature Apparent: ${e.values.temperatureApparent}°C <br>
-                            Visibility: ${e.values.visibility}% <br>
-                            Wind Direction: ${e.values.windDirection}° <br>
-                            Wind Gust: ${e.values.windGust} m/s <br>
-                            Wind Speed: ${e.values.windSpeed} m/s <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ok</button>
-                        </div>
-                    </div>
-                </div>
-            </div>`
+        document.querySelector("#hourlyCont").innerHTML += `<div class="modal fade modal-centered" id="${id}" tabindex="-1" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5">${date}, ${time}</h1>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Cloud Cover: ${e.values.cloudCover}% <br>
+                                                                            Dew Point: ${e.values.dewPoint}°C <br>
+                                                                            Freezing Rain Intensity: ${e.values.freezingRainIntensity} mm/hr <br>
+                                                                            Humidity: ${e.values.humidity}% <br>
+                                                                            Ice Accumulation: ${e.values.iceAccumulation} mm <br>
+                                                                            Precipitation Probability: ${e.values.precipitationProbability}% <br>
+                                                                            Pressure Surface Level: ${e.values.pressureSurfaceLevel} hPa <br>
+                                                                            Rain Accumulation: ${e.values.rainAccumulation} mm <br>
+                                                                            Rain Intensity: ${e.values.rainIntensity} mm/hr <br>
+                                                                            Sleet Accumulation: ${e.values.sleetAccumulation} mm <br>
+                                                                            Sleet Intensity: ${e.values.sleetIntensity} mm/hr <br>
+                                                                            Snow Accumulation: ${e.values.snowAccumulation} mm <br>
+                                                                            Snow Depth: ${e.values.snowDepth} mm <br>
+                                                                            Snow Intensity: ${e.values.snowIntensity} mm/hr <br>
+                                                                            Temperature: ${e.values.temperature}°C <br>
+                                                                            Temperature Apparent: ${e.values.temperatureApparent}°C <br>
+                                                                            Visibility: ${e.values.visibility}% <br>
+                                                                            Wind Direction: ${e.values.windDirection}° <br>
+                                                                            Wind Gust: ${e.values.windGust} m/s <br>
+                                                                            Wind Speed: ${e.values.windSpeed} m/s <br>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ok</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>`
     });
 }
