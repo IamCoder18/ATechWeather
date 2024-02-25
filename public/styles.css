@@ -3,6 +3,10 @@
     margin-left: 5%;
 }
 
+.navBtn{
+    font-size: 25px!important;
+}
+
 .tempImg {
     height: 40px;
 }

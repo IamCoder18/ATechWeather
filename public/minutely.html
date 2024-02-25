@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATech Weather - Home</title>
+    <title>ATech Weather - Minutely</title>
     <link rel="stylesheet" href="./Font/font.css">
     <link rel="stylesheet" href="./styles.css">
     <meta name="theme-color" content="#bd251a" />
@@ -13,20 +13,21 @@
     <meta name="description" content="Great and reliable weather predictions!">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
-<body page="home">
+<body page="minutely">
     <script type="text/javascript">
         if ('serviceWorker' in navigator) {
-            console.log("Will the service worker register?");
-            navigator.serviceWorker.register('service-worker.js')
-                .then(function (reg) {
-                    console.log("Yes, it did.");
-                }).catch(function (err) {
-                    console.log("No it didn't. This happened:", err)
-                });
+           console.log("Will the service worker register?");
+           navigator.serviceWorker.register('service-worker.js')
+             .then(function(reg){
+               console.log("Yes, it did.");
+            }).catch(function(err) {
+               console.log("No it didn't. This happened:", err)
+           });
         }
-    </script>
+       </script>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">ATech Weather</a>
@@ -37,7 +38,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" href="./">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./hourly.html">Hourly</a>
@@ -45,31 +46,27 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./daily.html">Daily</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Minutely</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="position-absolute top-50 start-50 translate-middle text-center">
-        <a href="./hourly.html"><button class="btn btn-primary navBtn">Hourly</button><br></a>
-        <button class="btn btn-primary mt-3 navBtn">Daily</button><br>
-        <button class="btn btn-primary mt-3 navBtn">Minutely</button><br>
-    </div>
-
-    <div style="height: 100%; width:100%; position: fixed; background-color: #fc8686; top: 0; left: 0; display: none;" id="install-div">
-        <div style="position: fixed; top:0; left: 0; width: 100%; height: 70px; background-color: black; text-align: center;">
-            <div style="color: white; font-size: 28px; margin-top: 14px;">ATech Weather</div>
-        </div>
-        <div class="position-absolute top-50 start-50 translate-middle text-center">
-            <button id="install-button" class="btn btn-success navBtn">Install App</button>
+    <div class="text-center"
+        style="width: 100%; display: flex; align-items: center!important; justify-content: center;">
+        <div id="minutelyCont" style="width: 90%!important;">
+        
         </div>
     </div>
 
-    <div id="refresh" style="display: none;">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
-        <script src="script.js"></script>
+    <div style="position: fixed; bottom:10px; left:10px;">
+        <button class="btn btn-danger" id="refresh">Refresh</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
