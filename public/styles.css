@@ -3,8 +3,8 @@
     margin-left: 5%;
 }
 
-.navBtn{
-    font-size: 25px!important;
+.navBtn {
+    font-size: 25px !important;
 }
 
 .tempImg {
@@ -30,4 +30,18 @@ h4 {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.ai {
+    background: linear-gradient(74deg, #4285f4 0, #9b72cb 9%, #d96570 20%, #d96570 24%, #9b72cb 35%, #4285f4 44%, #9b72cb 50%, #d96570 56%, #131314 75%, #131314 100%);
+    background-size: 400% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: "Bold"!important;
+    font-size: 22px;
+}
+
+.navbar{
+    z-index: 999999999;
 }
