@@ -43,5 +43,9 @@ h4 {
 }
 
 .navbar{
-    z-index: 999999999;
+    z-index: 600000!important;
+}
+
+.modal{
+    z-index: 600001!important;
 }

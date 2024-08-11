@@ -21,16 +21,10 @@
 <body page="hourly">
     <script type="text/javascript">
         if ('serviceWorker' in navigator) {
-            console.log("Will the service worker register?");
             navigator.serviceWorker.register('service-worker.js')
-                .then(function (reg) {
-                    console.log("Yes, it did.");
-                }).catch(function (err) {
-                    console.log("No it didn't. This happened:", err)
-                });
         }
     </script>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">ATech Weather</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -51,9 +45,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="./minutely.html">Minutely</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="./test.html" aria-current="page"><span class="ai">Weather AI</span></a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
